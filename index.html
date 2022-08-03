@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Pitch Pipe</title>
+  <meta name="author" content="Joel Gibson">
+  <meta name="description" content="An online pitch pipe, with a frequency analyser and just intonation support.">
+  <meta name="theme-color" content="#1F2937">
+  <link rel="icon" type="image/svg+xml" href="src/icon/compressed.svg">
+  <link rel="apple-touch-icon" href="src/icon/compressed.png">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+  <title>Pitch pipe</title>
+  <script type="module">
+    import './src/app.css'
+    import PitchPipe from './src/PitchPipe.svelte'
+
+    // Initialise app, append to <main>
+    new PitchPipe({target: document.querySelector('main')})
+
+    // About section button and toggle
+    let aboutShown = false
+    let aboutSection = document.querySelector('.about')
+    let aboutButton = document.querySelector('.aboutbutton')
+    aboutButton.addEventListener('click', function() {
+      aboutShown = !aboutShown
+      aboutSection.style.display = (aboutShown) ? '' : 'none'
+      aboutButton.innerText = (aboutShown) ? 'Close' : 'About'
+    })
+  </script>
+</head>
+
+<body>
+  <!-- The fixed-viewport no-scrolling stuff seems to work better on an element which is not body, hence <main>. -->
+  <main>
+    <h1>Pitch pipe</h1>
+  </main>
+  <section class="about" style="display:none">
+    <h1>About</h1>
+    <p>The pitch pipe is designed to be used in <em>portrait mode</em> on a phone.</p>
+    <p>Notes on the outer wheel are always equal temperament, tuned so that A4 is 440 Hz.</p>
+    <p>Notes on the inner wheel are just-tempered, relative to the current <em>tonal centre</em>.</p>
+    <p>The tonal centre can be changed by spinning the outermost ring.</p>
+    <p>On a phone, hold down multiple notes to play a chord. On a computer, hold shift while clicking notes.</p>
+    <p>This app can be added to your home screen and it will work offline. On an iPhone, select the Share menu, and then "Add to Home Screen".</p>
+    <footer>Created by <a href="https://www.jgibson.id.au/">Joel Gibson</a></footer>
+  </section>
+  <a class="aboutbutton" href="javascript:void(0)">About</a>
+</body>
+</html>

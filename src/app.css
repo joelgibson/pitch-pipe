@@ -1,0 +1,84 @@
+/* Reset sizing model, default to zero margins and padding. */
+html { box-sizing: border-box; }
+*, *:before, *:after { box-sizing: inherit; margin: 0; padding: 0; }
+
+/* Setup body to expect a fixed viewport */
+body {
+  /* Mobile safari seems to ignore the "user-scalable=no" parameter in the viewport meta.
+     Setting touch-action: pan-x pan-y should fix this, but in our case we don't even need pan. */
+  touch-action: none;
+
+  /* Don't allow any text selection throughout the whole app. The webkit version is needed for mobile safari. */
+  user-select: none;
+  -webkit-user-select: none;
+
+  /* Remove the scrollbar. */
+  overflow: hidden;
+}
+
+/* Main column should pop over everything into "fullscreen" position. */
+main {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  /* We're using 100% for height instead of 100vh because of the navigation bar at the bottom of mobile safari. */
+  width: 100%;
+  height: 100%;
+
+  /* Styling items: a column of centred flexbox. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Styling only from here down */
+body {
+  background-color: #1F2937;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+h1 {
+  margin: 10px;
+  font-weight: normal;
+  font-size: 16pt;
+}
+/* #app { width: 100%; height: 80%; } */
+footer {
+  margin: 0 auto;
+  padding: 5px 0;
+}
+a { color: #818CF8; text-decoration: none; }
+a:visited { color: #818CF8; }
+
+/* Button to open the about dialog */
+.aboutbutton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+}
+
+/* About section */
+section.about {
+  position: absolute;
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  margin: 5px;
+  border: 1px solid white;
+  background-color: #445771;
+  padding: 5px;
+
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.about h1 { font-size: 14pt; }
+.about p { font-size: 11pt; }
+.about p:not(:last-child) { margin-bottom: 0.8rem; }
