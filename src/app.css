@@ -48,8 +48,8 @@ footer {
   margin: 0 auto;
   padding: 5px 0;
 }
-a { color: #818CF8; text-decoration: none; }
-a:visited { color: #818CF8; }
+a { color: #c4d5ff; text-decoration: none; }
+a:visited { color: #c4d5ff; }
 
 /* Button to open the about dialog */
 .aboutbutton {
@@ -80,5 +80,6 @@ section.about {
   overflow-y: auto;
 }
 .about h1 { font-size: 14pt; }
-.about p { font-size: 11pt; }
+.about { font-size: 11pt; line-height: 1.3em; }
 .about p:not(:last-child) { margin-bottom: 0.8rem; }
+.about li { margin-left: 1rem; }

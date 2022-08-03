@@ -143,17 +143,29 @@ function setupAudio() {
 }
 const audio = setupAudio()
 
+let playingNoteName = ''
+function updatePlayingNoteName(playingNotes: Map<NoteSpec, OscillatorNode>) {
+    let equalPlaying = [...playingNotes.keys()].filter(note => note.tempering == 'equal')
+    if (equalPlaying.length == 1)
+        playingNoteName = pitchNotation(noteFreq(equalPlaying[0], wheelAngle))
+    else if (equalPlaying.length == 0)
+        playingNoteName = ''
+}
 
 
 
 let playingNotes = new Map<NoteSpec, OscillatorNode>()
-let playingNoteName = ''
 function startNote(audio: {ctx: AudioContext, destination: AudioNode}, note: NoteSpec) {
+    // iOS will put the audio context into an interrupted state when the user switches away:
+    // https://developer.mozilla.org/en-US/docs/Web/API/BaseAudioContext/state#resuming_interrupted_play_states_in_ios_safari
+    // Perhaps this will fix things?
+    if (audio.ctx.state != 'running') {
+        audio.ctx.resume().then(() => startNote(audio, note))
+        return
+    }
+
     if (playingNotes.has(note))
         return
-
-    if (playingNotes.size == 0 && note.tempering == 'equal')
-        playingNoteName = pitchNotation(noteFreq(note, wheelAngle))
 
     let oscillatorNode = new OscillatorNode(audio.ctx, {
         type: waveSelected.type,
@@ -161,8 +173,10 @@ function startNote(audio: {ctx: AudioContext, destination: AudioNode}, note: Not
     })
     oscillatorNode.connect(audio.destination)
     oscillatorNode.start()
-    playingNotes.set(note, oscillatorNode)
     requestAnimationFrame(paintCanvas)
+
+    playingNotes.set(note, oscillatorNode)
+    updatePlayingNoteName(playingNotes)
 }
 function releaseNote(audio: {ctx: AudioContext}, note: NoteSpec) {
     if (!playingNotes.has(note))
@@ -170,10 +184,9 @@ function releaseNote(audio: {ctx: AudioContext}, note: NoteSpec) {
 
     let oscillatorNode = playingNotes.get(note)
     oscillatorNode.stop(audio.ctx.currentTime)
-    playingNotes.delete(note)
 
-    if (playingNotes.size == 0)
-        playingNoteName = ''
+    playingNotes.delete(note)
+    updatePlayingNoteName(playingNotes)
 }
 
 

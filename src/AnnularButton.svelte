@@ -85,7 +85,7 @@
 <style>
     .stroked { stroke: #818CF8; }
     .active { fill: #aaa; }
-    text { font-family: Arial, sans-serif; font-size: 16pt; fill: white; }
+    text { font-family: Arial, sans-serif; fill: white; }
 </style>
 
 <path
@@ -98,6 +98,7 @@
     transform={textTrans}
     text-anchor="middle"
     dominant-baseline="middle"
+    font-size={`${Math.min(16, outerRadius * 0.15)}pt`}
 >
     {name}
 </text>
